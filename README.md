@@ -1,9 +1,6 @@
-## About
-Masonry layout for images and videos
+## Masonry layout for images and videos. Live demo: https://ivanpk938.vercel.app/masonry
 
-## Demo: https://ivanpk938.vercel.app/masonry
-
-## Usage
+## Example
 ```js
 
 import MasonryLayout, {MasonryLayoutRefType} from "./masonrylayout-tsx-react";
@@ -65,7 +62,7 @@ const Page: FC = () => {
 export default Page;
 ```
 
-## properties
+## Props
 
 | property | type | default | description |
 | --- | --- | --- | --- |
