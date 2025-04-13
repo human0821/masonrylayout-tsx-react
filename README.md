@@ -6,7 +6,7 @@ Masonry layout for images and videos
 ## Usage
 ```js
 
-import MasonryLayout, {MasonryLayoutRefType} from "./masonrylayout";
+import MasonryLayout, {MasonryLayoutRefType} from "./masonrylayout-tsx-react";
 import {FC, useRef, useState} from "react";
 
 const key = () => String(Math.random()).split('.')[1];
