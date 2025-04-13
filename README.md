@@ -1,21 +1,7 @@
 ## About
 Masonry layout for images and videos
 
-![GitHub package.json version](https://img.shields.io/github/package-json/v/inhibate/masonrylayout-tsx-react)
-
-![ezgif-5-188e839a47](https://github.com/inhibate/masonrylayout/assets/7237762/061b05e7-60bc-4efb-993e-62a45f440f3c)
-
 ## Demo: https://ivanpk938.vercel.app/masonry
-
-## NPM
-```npm i masonrylayout-tsx-react```
-
-## Requirements
-
-| install | version |
-| --- | --- |
-| React | >=16.8.0 |
-| TypeScript | - |
 
 ## Usage
 ```js
