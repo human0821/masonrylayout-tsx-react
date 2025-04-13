@@ -1,5 +1,4 @@
 ## About
-exports **MasonryLayout component**.
 Masonry layout for images and videos
 
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/inhibate/masonrylayout-tsx-react)
@@ -21,8 +20,8 @@ Masonry layout for images and videos
 ## Usage
 ```js
 
-import {FunctionComponent, useRef, useState} from "react";
-import MasonryLayout, {MasonryLayoutRefType} from "masonrylayout-tsx-react"
+import MasonryLayout, {MasonryLayoutRefType} from "masonrylayout-tsx-react";
+import {FC, useRef, useState} from "react";
 
 const key = () => String(Math.random()).split('.')[1];
 const box = {width: '300px'};
@@ -53,18 +52,18 @@ const externalLinks = [
   'https://images.unsplash.com/photo-1699462515808-41f81a8145b0?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
 ];
 
-const MasonryPage: FunctionComponent = () => {
+const Page: FC = () => {
+  const [links, setLinks] = useState<string[]>(externalLinks);
   const ref = useRef<MasonryLayoutRefType>(null);
   const updateLayout = () => ref.current?.layout();
-  const [links, setLinks] = useState<string[]>(links);
 
-  const add = () => setLinks(elements => [externalLinks[1], ...elements]);
-  const remove = () => setLinks(elements => elements.slice(1));
+  const addLink = () => setLinks(links => [externalLinks[1], ...links]);
+  const removeLink = () => setLinks(links => links.slice(1));
 
-  return <>
+  return <div>
     <div style={centrify}>
-      <button style={button} onClick={add}>ADD</button>
-      <button style={button} onClick={remove}>REMOVE FIRST</button>
+      <button style={button} onClick={addLink}>Add</button>
+      <button style={button} onClick={removeLink}>Remove</button>
     </div>
     <MasonryLayout forwardedRef={ref} animate=".4s ease" justifyContainer="center" gap={5} layoutThrottle={200}>
       {links.map((link, i) => <div key={i} style={box}>
@@ -74,10 +73,10 @@ const MasonryPage: FunctionComponent = () => {
         }</div>
       )}
     </MasonryLayout>
-  </>
+  </div>
 }
 
-export default MasonryPage;
+export default Page;
 ```
 
 ## properties
