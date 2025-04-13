@@ -1,6 +1,6 @@
 ## About
 exports **MasonryLayout component**.
-Allows to layout images as masonry
+Masonry layout for images and videos
 
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/inhibate/masonrylayout-tsx-react)
 
@@ -21,12 +21,16 @@ Allows to layout images as masonry
 ## Usage
 ```js
 
-import {FunctionComponent, useRef, useState} from "react"
+import {FunctionComponent, useRef, useState} from "react";
 import MasonryLayout, {MasonryLayoutRefType} from "masonrylayout-tsx-react"
 
-const key = () => String(Math.random()).split('.')[1]
+const key = () => String(Math.random()).split('.')[1];
+const box = {width: '300px'};
+const button = {padding: '10px', cursor: 'pointer', border: '1px solid transparent', margin: '20px 5px'};
+const assetStyle = {width: '100%', display: 'flex', borderRadius: '7px'};
+const centrify = {display: 'flex', justifyContent: 'center', alignItems: 'center'};
 
-const links = [
+const externalLinks = [
   'https://i.imgur.com/m884zzP.mp4',
   'https://images.unsplash.com/photo-1682687220866-c856f566f1bd?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   'https://images.unsplash.com/photo-1699378999301-8c88a6a237d9?q=80&w=1364&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -47,43 +51,33 @@ const links = [
   'https://images.unsplash.com/photo-1682685796444-acc2f5c1b7b6?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   'https://plus.unsplash.com/premium_photo-1683309568218-bf32f6d904f0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyNHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=700&q=60',
   'https://images.unsplash.com/photo-1699462515808-41f81a8145b0?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-]
-
-const button = {padding: '10px', cursor: 'pointer', border: '1px solid transparent', margin: '20px 5px'}
-const assetStyle = {width: '100%', display: 'flex', borderRadius: '7px'}
-const centrify = {display: 'flex', justifyContent: 'center', alignItems: 'center'}
-const box = {width: '300px'}
+];
 
 const MasonryPage: FunctionComponent = () => {
-  const MasonryLayoutRef = useRef<MasonryLayoutRefType>(null)
-  const updateLayout = () => MasonryLayoutRef.current?.layout()
+  const ref = useRef<MasonryLayoutRefType>(null);
+  const updateLayout = () => ref.current?.layout();
+  const [links, setLinks] = useState<string[]>(links);
 
-  const getBox = (link: string) => {
-    let element = null
-    if (/\.mp4$/.test(link)) {
-      element = <video onLoadedMetadata={updateLayout} controls={true} autoPlay={true} loop={true} muted style={assetStyle}><source src={link} type="video/mp4" /></video>
-    }
-    else {
-      element = <img onLoad={updateLayout} style={assetStyle} src={link} />
-    }
-    return <div key={key()} style={box}>{element}</div>
-  }
-
-  const [boxes, setBoxes] = useState<JSX.Element[]>(links.map(link => getBox(link)))
-
-  const add = () => setBoxes(elements => [getBox(links[1]), ...elements])
-  const remove = () => setBoxes(elements => elements.slice(1))
+  const add = () => setLinks(elements => [externalLinks[1], ...elements]);
+  const remove = () => setLinks(elements => elements.slice(1));
 
   return <>
     <div style={centrify}>
       <button style={button} onClick={add}>ADD</button>
       <button style={button} onClick={remove}>REMOVE FIRST</button>
     </div>
-    <MasonryLayout forwardedRef={MasonryLayoutRef} animate=".4s ease" justifyContainer="center" gap={5} layoutThrottle={200}>{boxes}</MasonryLayout>
+    <MasonryLayout forwardedRef={ref} animate=".4s ease" justifyContainer="center" gap={5} layoutThrottle={200}>
+      {links.map((link, i) => <div key={i} style={box}>
+        {/\.mp4$/.test(link)
+          ? <video onLoadedMetadata={updateLayout} controls={true} autoPlay={true} loop={true} muted style={assetStyle}><source src={link} type="video/mp4" /></video>
+          : <img onLoad={updateLayout} style={assetStyle} src={link} />
+        }</div>
+      )}
+    </MasonryLayout>
   </>
 }
 
-export default MasonryPage
+export default MasonryPage;
 ```
 
 ## properties
@@ -97,6 +91,4 @@ export default MasonryPage
 | `layoutThrottle` | number | 250 | Delay after which the **layout()** function is called to layout elements when browser's window is resized | 
 
 ## TODO:
-1) Load all images/videos before showing layout.
-2) Show spinner/loader during loading stage.
-3) Simplify usage: omit onLoad/onLoadedMetadata events
+Enable animations only when all images/videos loaded
